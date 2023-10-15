@@ -2,13 +2,13 @@ import java.util.*;
 
 import com.Class.Room;
 import com.Class.Hotel;
-import com.Enum.RoomStatusEnum;
 import com.Service.RoomManagementService;
+import com.Service.DataSeedingService;
 
 public class main {
     public static void main(String args[]) {
         // Set up data in memory
-        Hotel hotel = createSeedData();
+        Hotel hotel = DataSeedingService.createSeedData();
         RoomManagementService roomManagementService = new RoomManagementService(hotel);
 
         Scanner sc = new Scanner(System.in);
@@ -60,33 +60,5 @@ public class main {
         System.out.println("3. Mark a room as cleaned ");
         System.out.println("4. Mark a room for repair ");
         System.out.println("5. List all available rooms ");
-    }
-
-    public static Hotel createSeedData() {
-        // Initialise seed data
-        Comparator<Room> distanceComparator = Comparator.comparing(Room::getDistance);
-        PriorityQueue<Room> availableRooms = new PriorityQueue<>(distanceComparator);
-        HashMap<String, Room> rooms = new HashMap<>();
-        char[] suffixes = { 'A', 'B', 'C', 'D', 'E' };
-        char[] reversedSuffixes = { 'E', 'D', 'C', 'B', 'A' };
-        int distance = 1;
-        // 4 storeys
-        for (int i = 1; i < 5; i++) {
-            // 5 rooms per storey
-            for (int j = 1; j < 6; j++) {
-                char suffix;
-                if (i % 2 != 0) {
-                    suffix = suffixes[j - 1];
-                }
-                else {
-                    suffix = reversedSuffixes[j - 1];
-                }
-                Room newRoom = new Room(distance, i, suffix, RoomStatusEnum.AVAILABLE);
-                availableRooms.offer(newRoom);
-                rooms.put(newRoom.getRoomNumber(), newRoom);
-                distance++;
-            }
-        }
-        return new Hotel("Botique Hotel", rooms, availableRooms);
     }
 }

@@ -6,6 +6,8 @@ import java.util.PriorityQueue;
 public class Hotel {
     private String name;
     private HashMap<String, Room> rooms;
+
+    // This priority queue is not required but used here to showcase the efficiency of finding the nearest available room
     private PriorityQueue<Room> availableRooms;
 
     public Hotel(String name, HashMap<String, Room> rooms, PriorityQueue<Room> availableRooms) {

@@ -7,6 +7,8 @@ import com.Exceptions.NoSuchRoomException;
 import com.Class.Hotel;
 import com.Class.Room;
 
+import java.util.PriorityQueue;
+
 public class RoomManagementService {
     private final Hotel hotel;
 
@@ -64,9 +66,10 @@ public class RoomManagementService {
         selectedRoom.setRoomStatus(RoomStatusEnum.REPAIR);
     }
 
-    public void listAllAvailableRooms() {
+    public PriorityQueue<Room> listAllAvailableRooms() {
         for (Room availableRoom: this.hotel.getAvailableRooms()) {
             System.out.println("Room: " + availableRoom.getLevel() + availableRoom.getSuffix());
         }
+        return this.hotel.getAvailableRooms();
     }
 }
