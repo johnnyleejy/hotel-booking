@@ -37,10 +37,19 @@ public class main {
                         System.out.println("Enter the room number that you want to mark for repair: ");
                         String roomNumber = sc.next();
                         roomManagementService.markRoomForRepair(roomNumber);
-                        System.out.println("Room: " + roomNumber + " is under repair.");
+                        System.out.println("Room: " + roomNumber + " is now under repair.");
                     }
-                    case 5 -> roomManagementService.listAllAvailableRooms();
-                    default -> System.out.println("No such command");
+                    case 5 -> {
+                        System.out.println("Enter the room number that you want to mark as repaired: ");
+                        String roomNumber = sc.next();
+                        roomManagementService.markRoomAsRepaired(roomNumber);
+                        System.out.println("Room: " + roomNumber + " is now vacant.");
+                    }
+                    case 6 -> roomManagementService.listAllAvailableRooms();
+                    default -> {
+                        System.out.println("No such command");
+                        promptCommands();
+                    }
                 }
             }
             catch (Exception exception) {
@@ -59,6 +68,8 @@ public class main {
         System.out.println("2. Check out a room");
         System.out.println("3. Mark a room as cleaned ");
         System.out.println("4. Mark a room for repair ");
-        System.out.println("5. List all available rooms ");
+        System.out.println("5. Mark a room as repaired ");
+        System.out.println("6. List all available rooms ");
+        System.out.println();
     }
 }

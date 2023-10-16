@@ -227,4 +227,36 @@ public class RoomManagementServiceTest {
             Assertions.assertEquals(exception.getMessage(), "Only VACANT rooms can be marked for REPAIR");
         }
     }
+
+    @Nested
+    class markRoomAsRepairedScenarios {
+        @Test
+        public void markRoomAsRepaired_success() throws InvalidStatusException, NoSuchRoomException {
+            // Given a repaired room
+            Room requestedRoom = roomManagementService.requestForAvailableRoom();
+            roomManagementService.checkOutRoom(requestedRoom.getRoomNumber());
+            roomManagementService.markRoomForRepair(requestedRoom.getRoomNumber());
+
+            // When the vacant room is marked as repaired
+            roomManagementService.markRoomAsRepaired(requestedRoom.getRoomNumber());
+
+            // Then the room should be updated to VACANT status
+            Room room = roomManagementService.findRoom(requestedRoom.getRoomNumber());
+            Assertions.assertEquals(room.getRoomStatus(), RoomStatusEnum.VACANT);
+            Assertions.assertEquals(room.getRoomNumber(), "1A");
+            Assertions.assertEquals(room.getDistance(), 1);
+            Assertions.assertEquals(room.getLevel(), 1);
+            Assertions.assertEquals(room.getSuffix(), 'A');
+        }
+
+        @Test
+        public void markRoomAsRepaired_error_invalidStatus() {
+            // Given an available room
+            // When the available room is marked for repair
+            // Then an exception will be thrown
+            Exception exception = Assertions.assertThrows(InvalidStatusException.class, ()->
+                    roomManagementService.markRoomAsRepaired("1A"));
+            Assertions.assertEquals(exception.getMessage(), "Only REPAIRED rooms can be marked as VACANT");
+        }
+    }
 }

@@ -16,6 +16,11 @@ public class RoomManagementService {
         this.hotel = hotel;
     }
 
+    /**
+     * Books the nearest available room and updates its status to occupied.
+     * @return the nearest available room
+     * @throws NoSuchRoomException when there are no available rooms for booking
+     */
     public Room requestForAvailableRoom() throws NoSuchRoomException {
         Room availableRoom = this.hotel.getAvailableRooms().poll();
         if (availableRoom == null) {
@@ -25,6 +30,12 @@ public class RoomManagementService {
         return availableRoom;
     }
 
+    /**
+     * Searches for a room and returns the result.
+     * @param roomNumber of the room
+     * @return the retrieved room
+     * @throws NoSuchRoomException when no such room exists
+     */
     public Room findRoom(String roomNumber) throws NoSuchRoomException {
         Room retrievedRoom = this.hotel.getRooms().get(roomNumber);
         if (retrievedRoom == null) {
@@ -34,6 +45,12 @@ public class RoomManagementService {
         return retrievedRoom;
     }
 
+    /**
+     * Checks out the given room. Only occupied rooms can be checked out.
+     * @param roomNumber of the room
+     * @throws NoSuchRoomException when no such room exists
+     * @throws InvalidStatusException when the room is not OCCUPIED
+     */
     public void checkOutRoom(String roomNumber) throws NoSuchRoomException, InvalidStatusException {
         Room selectedRoom = this.findRoom(roomNumber);
         // Only occupied rooms can be made vacant
@@ -44,6 +61,12 @@ public class RoomManagementService {
         selectedRoom.setRoomStatus(RoomStatusEnum.VACANT);
     }
 
+    /**
+     * Updates a VACANT room to AVAILABLE.
+     * @param roomNumber of the room
+     * @throws NoSuchRoomException when no such room exists
+     * @throws InvalidStatusException when the room is not VACANT
+     */
     public void markRoomAsAvailable(String roomNumber) throws NoSuchRoomException, InvalidStatusException {
         Room selectedRoom = this.findRoom(roomNumber);
         // Only vacant rooms can be made available
@@ -56,6 +79,12 @@ public class RoomManagementService {
         hotel.getAvailableRooms().offer(selectedRoom);
     }
 
+    /**
+     * Marks a VACANT room as under REPAIR.
+     * @param roomNumber of the room
+     * @throws NoSuchRoomException when no such room exists
+     * @throws InvalidStatusException when the room is not VACANT
+     */
     public void markRoomForRepair(String roomNumber) throws NoSuchRoomException, InvalidStatusException {
         // Only vacant rooms can be marked as repair
         Room selectedRoom = this.findRoom(roomNumber);
@@ -66,6 +95,26 @@ public class RoomManagementService {
         selectedRoom.setRoomStatus(RoomStatusEnum.REPAIR);
     }
 
+    /**
+     * Updates a repaired room to VACANT status.
+     * @param roomNumber of the room
+     * @throws NoSuchRoomException when no such room exists
+     * @throws InvalidStatusException when the room is not of REPAIR status
+     */
+    public void markRoomAsRepaired(String roomNumber) throws NoSuchRoomException, InvalidStatusException {
+        // Only repaired rooms can be updated to vacant
+        Room selectedRoom = this.findRoom(roomNumber);
+        if (selectedRoom.getRoomStatus() != RoomStatusEnum.REPAIR) {
+            throw new InvalidStatusException("Only REPAIRED rooms can be marked as VACANT");
+        }
+        // Update status
+        selectedRoom.setRoomStatus(RoomStatusEnum.VACANT);
+    }
+
+    /**
+     * Retrieves and prints the list of all available rooms.
+     * @return the queue of all available rooms
+     */
     public PriorityQueue<Room> listAllAvailableRooms() {
         for (Room availableRoom: this.hotel.getAvailableRooms()) {
             System.out.println("Room: " + availableRoom.getLevel() + availableRoom.getSuffix());
