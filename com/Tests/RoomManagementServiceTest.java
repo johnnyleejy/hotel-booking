@@ -229,7 +229,7 @@ public class RoomManagementServiceTest {
     }
 
     @Nested
-    class markRoomAsRepairedScenarios {
+    class MarkRoomAsRepairedScenarios {
         @Test
         public void markRoomAsRepaired_success() throws InvalidStatusException, NoSuchRoomException {
             // Given a repaired room
