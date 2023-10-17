@@ -15,10 +15,14 @@ This is a simple CLI based application that supports the below operations:
 
 Some design choices I made:
 
-1. I used a priority queue (min stack) to store all available rooms. This is done so retrieving the nearest avaialble room is **O(1)** which is the first element of the priority queue.
-2. Used a scanner for the user to interact with the CLI interface
-3. Created a `RoomManagementService` class that is responsible for room specific operations (booking, checking out, marking and also listing available rooms).
-4. Created a `DataSeedingService` to insert test data into memory
+1. Used a priority queue (min heap) to store all available rooms. This is done so retrieving the nearest avaialble room is **O(1)** which is the first element of the priority queue.
+2. Used a hashmap to store all hotel rooms so retrieval can be done performantly. (Equivalent to a primay index) 
+3. Used a scanner for the user to interact with the CLI interface
+4. Created a `RoomManagementService` class that is responsible for room specific operations (booking, checking out, marking and also listing available rooms).
+5. Created a `DataSeedingService` to insert test data into memory
+
+## Additional notes
+Although finding the nearest available room takes O(1) using a priority queue, removing any element and restructuring the priority queue requires O(log n) time complexity.
 
 ## Tests
 
