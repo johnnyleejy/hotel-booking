@@ -22,7 +22,7 @@ Some design choices I made:
 5. Created a `DataSeedingService` to insert test data into memory
 
 ## Additional notes
-Although finding the nearest available room takes O(1) using a priority queue, removing any element and restructuring the priority queue requires O(log n) time complexity.
+Although finding the nearest available room takes O(1) using a priority queue, removing any element will restructure the priority queue and thus, requires O(log n) time complexity.
 
 ## Tests
 
